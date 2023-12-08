@@ -75,8 +75,8 @@
     </div>
     <div class="text-left mb-1">
       <label>
-        Auto-close braces:
         <input type="checkbox" bind:checked="{$options.autoClose}" />
+        Auto-close braces
       </label>
     </div>
     <textarea
