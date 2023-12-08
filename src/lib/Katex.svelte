@@ -1,5 +1,5 @@
 <script lang="ts">
-  import katex from 'katex';
+  import katex, { type ParseError, type KatexOptions } from 'katex';
 
   export let math: string;
   export let displayMode = false;
@@ -7,16 +7,17 @@
 
   let katexString = '';
 
-  const options = {
+  const options: KatexOptions = {
     displayMode,
     throwOnError: true,
+    strict: false,
   };
 
   $: try {
     katexString = katex.renderToString(math, options);
     error = null;
-  } catch (err: any) {
-    error = err.message.toString();
+  } catch (err) {
+    error = (err as ParseError).message.toString();
   }
 </script>
 

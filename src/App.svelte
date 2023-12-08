@@ -3,7 +3,9 @@
   import classNames from 'classnames';
   import Katex from './lib/Katex.svelte';
   import { options } from './lib/stores/options';
+  import { autoCloseMappings, buttons } from './lib/constants';
 
+  let inputField: HTMLTextAreaElement;
   let initialized = false;
   let input = '';
   let error: string | undefined = undefined;
@@ -31,15 +33,7 @@
     const pos = inputElement.selectionStart;
     const pressedKey = ev.key;
 
-    const mappings = [
-      ['{', '}'],
-      ['[', ']'],
-      ['(', ')'],
-      ['"', '"'],
-      ["'", "'"],
-    ];
-
-    const match = mappings.find((map) => pressedKey === map[0]);
+    const match = autoCloseMappings.find((map) => pressedKey === map[0]);
     if (match) {
       inputElement.value =
         inputElement.value.substring(0, pos) +
@@ -47,6 +41,16 @@
         inputElement.value.substring(pos);
       inputElement.setSelectionRange(pos, pos);
     }
+  }
+
+  function insert(str: string) {
+    const pos = inputField.selectionStart;
+    const newPos = pos + str.indexOf('{') + 1;
+
+    input = input.substring(0, pos) + str + input.substring(pos);
+    inputField.focus();
+
+    setTimeout(() => inputField.setSelectionRange(newPos, newPos));
   }
 
   $: bgColor = $options.bgColorEnabled ? $options.bgColor : 'inherit';
@@ -58,6 +62,17 @@
   </h1>
 
   <form class="mt-6 mb-2 inline-block" on:submit|preventDefault>
+    <div class="p-2">
+      {#each buttons as [latex, str, label]}
+        <button
+          class="mx-2 border border-neutral-400 rounded h-full py-2 px-2"
+          on:click="{() => insert(str)}"
+          title="{label}"
+        >
+          <Katex math="{latex}" />
+        </button>
+      {/each}
+    </div>
     <div class="text-left mb-1">
       <label>
         Auto-close braces:
@@ -73,6 +88,7 @@
       autocorrect="off"
       spellcheck="{false}"
       on:keydown="{handleKeyDown}"
+      bind:this="{inputField}"
     ></textarea>
     <div class="flex justify-between items-center">
       <span class="flex my-2 space-x-4">

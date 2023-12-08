@@ -9,5 +9,5 @@ All the online editors I've found so far either are too heavy-duty or take too m
 
 ### To be added
 
-- [ ] Command toolbar
+- [x] Command toolbar
 - [ ] Image download
