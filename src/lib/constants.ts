@@ -10,7 +10,7 @@ export const buttons: [string, string, string][] = [
   ['\\frac{\\square}{\\square}', '\\frac{}{}', 'Fraction'],
   ['x^{\\square}', '^{}', 'Power'],
   ['\\sqrt{\\square}', '\\sqrt{}', 'Square root'],
-  ['\\lim_{x\\to\\square}', '\\lim{x\\to{}}{}', 'Limit'],
+  ['\\lim_{x\\to\\square}', '\\lim_{x\\to{}}{}', 'Limit'],
   ['\\int{\\square}dx', '\\int{}dx', 'Indefinite integral'],
   [
     '\\int_{\\square}^{\\square}{\\square}dx',
